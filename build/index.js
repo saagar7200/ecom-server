@@ -25,6 +25,9 @@ const DB_URI = process.env.DB_URI || "";
 app.use(express_1.default.urlencoded({ extended: false }));
 // serving static files
 app.use("/api/uploads", express_1.default.static(path_1.default.join(__dirname, "../", "uploads")));
+app.use("/", (req, res) => {
+    res.status(200).json({ message: "Server is up & running" });
+});
 // using routes
 app.use("/api/user", user_routes_1.default);
 app.use("/api/product", product_routes_1.default);

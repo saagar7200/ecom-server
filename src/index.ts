@@ -26,6 +26,10 @@ app.use(express.urlencoded({ extended: false }));
 // serving static files
 app.use("/api/uploads", express.static(path.join(__dirname, "../", "uploads")));
 
+app.use("/", (req: Request, res: Response) => {
+	res.status(200).json({ message: "Server is up & running" });
+});
+
 // using routes
 app.use("/api/user", userRoutes);
 app.use("/api/product", productRoutes);
