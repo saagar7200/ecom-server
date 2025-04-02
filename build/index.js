@@ -23,6 +23,7 @@ const DB_URI = process.env.DB_URI || "";
 (0, database_config_1.connectDatabase)(DB_URI);
 // using middlewares
 app.use(express_1.default.urlencoded({ extended: false }));
+app.use(express_1.default.json());
 // serving static files
 app.use("/api/uploads", express_1.default.static(path_1.default.join(__dirname, "../", "uploads")));
 app.use("/", (req, res) => {

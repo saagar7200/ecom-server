@@ -22,6 +22,7 @@ connectDatabase(DB_URI);
 
 // using middlewares
 app.use(express.urlencoded({ extended: false }));
+app.use(express.json());
 
 // serving static files
 app.use("/api/uploads", express.static(path.join(__dirname, "../", "uploads")));
