@@ -27,10 +27,6 @@ app.use(express.json());
 // serving static files
 app.use("/api/uploads", express.static(path.join(__dirname, "../", "uploads")));
 
-app.use("/", (req: Request, res: Response) => {
-	res.status(200).json({ message: "Server is up & running" });
-});
-
 // using routes
 app.use("/api/user", userRoutes);
 app.use("/api/product", productRoutes);
@@ -39,6 +35,10 @@ app.use("/api/review", reviewRoutes);
 app.use("/api/cart", cartRoutes);
 app.use("/api/wishlist", wishlistRoutes);
 app.use("/api/order", orderRoutes);
+
+app.use("/", (req: Request, res: Response) => {
+	res.status(200).json({ message: "Server is up & running" });
+});
 
 // handle not found path
 app.all("*", (req: Request, res: Response, next: NextFunction) => {

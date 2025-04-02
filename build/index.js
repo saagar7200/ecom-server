@@ -26,9 +26,6 @@ app.use(express_1.default.urlencoded({ extended: false }));
 app.use(express_1.default.json());
 // serving static files
 app.use("/api/uploads", express_1.default.static(path_1.default.join(__dirname, "../", "uploads")));
-app.use("/", (req, res) => {
-    res.status(200).json({ message: "Server is up & running" });
-});
 // using routes
 app.use("/api/user", user_routes_1.default);
 app.use("/api/product", product_routes_1.default);
@@ -37,6 +34,9 @@ app.use("/api/review", review_routes_1.default);
 app.use("/api/cart", cart_routes_1.default);
 app.use("/api/wishlist", wishlist_routes_1.default);
 app.use("/api/order", order_routes_1.default);
+app.use("/", (req, res) => {
+    res.status(200).json({ message: "Server is up & running" });
+});
 // handle not found path
 app.all("*", (req, res, next) => {
     const message = `can not ${req.method} on ${req.originalUrl}`;

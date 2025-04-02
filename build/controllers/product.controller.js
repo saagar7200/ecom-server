@@ -56,7 +56,7 @@ exports.create = (0, asyncHandler_util_1.asyncHandler)((req, res) => __awaiter(v
 }));
 // update product
 exports.update = (0, asyncHandler_util_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _b;
     const { deletedImages, name, description, price, categoryId } = req.body;
     const id = req.params.id;
     const { coverImage, images } = req.files;
@@ -73,7 +73,7 @@ exports.update = (0, asyncHandler_util_1.asyncHandler)((req, res) => __awaiter(v
     }
     if (coverImage) {
         yield (0, deleteFiles_util_1.deleteFiles)([product.coverImage]);
-        product.coverImage = (_a = coverImage[0]) === null || _a === void 0 ? void 0 : _a.path;
+        product.coverImage = (_b = coverImage[0]) === null || _b === void 0 ? void 0 : _b.path;
     }
     if (deletedImages && deletedImages.length > 0) {
         yield (0, deleteFiles_util_1.deleteFiles)(deletedImages);
