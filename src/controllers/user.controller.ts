@@ -54,6 +54,8 @@ export const getAll = asyncHandler(async (req: Request, res: Response) => {
 export const register = asyncHandler(async (req: Request, res: Response) => {
 	const body = req.body;
 
+	console.log("👊 ~ user.controller.ts:57 ~ register ~ body:", body);
+
 	if (!body.password) {
 		throw new CustomError("password is required", 400);
 	}
@@ -120,13 +122,11 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
 	// 3 if !user ->  error
 	if (!user) {
 		throw new CustomError("Email or password does not match", 400);
-
-		return;
 	}
 
 	// 4. compare hash
 
-	const isMatch = compare(password, user.password);
+	const isMatch = await compare(password, user.password);
 
 	if (!isMatch) {
 		throw new CustomError("Email or password does not match", 400);

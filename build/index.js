@@ -24,10 +24,10 @@ const DB_URI = process.env.DB_URI || "";
 (0, database_config_1.connectDatabase)(DB_URI);
 // using middlewares
 app.use((0, cors_1.default)({
-    origin: '*'
+    origin: "*",
 }));
-app.use(express_1.default.urlencoded({ extended: false }));
 app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: false }));
 // serving static files
 app.use("/api/uploads", express_1.default.static(path_1.default.join(__dirname, "../", "uploads")));
 // using routes

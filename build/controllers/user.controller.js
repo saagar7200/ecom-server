@@ -61,6 +61,7 @@ exports.getAll = (0, asyncHandler_util_1.asyncHandler)((req, res) => __awaiter(v
 }));
 exports.register = (0, asyncHandler_util_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const body = req.body;
+    console.log("👊 ~ user.controller.ts:57 ~ register ~ body:", body);
     if (!body.password) {
         throw new errorhandler_middleare_1.default("password is required", 400);
     }
@@ -109,10 +110,9 @@ exports.login = (0, asyncHandler_util_1.asyncHandler)((req, res) => __awaiter(vo
     // 3 if !user ->  error
     if (!user) {
         throw new errorhandler_middleare_1.default("Email or password does not match", 400);
-        return;
     }
     // 4. compare hash
-    const isMatch = (0, bcrypt_util_1.compare)(password, user.password);
+    const isMatch = yield (0, bcrypt_util_1.compare)(password, user.password);
     if (!isMatch) {
         throw new errorhandler_middleare_1.default("Email or password does not match", 400);
         return;
