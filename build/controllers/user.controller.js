@@ -113,9 +113,9 @@ exports.login = (0, asyncHandler_util_1.asyncHandler)((req, res) => __awaiter(vo
     }
     // 4. compare hash
     const isMatch = yield (0, bcrypt_util_1.compare)(password, user.password);
+    console.log('is match', isMatch);
     if (!isMatch) {
         throw new errorhandler_middleare_1.default("Email or password does not match", 400);
-        return;
     }
     const payload = {
         _id: user._id,

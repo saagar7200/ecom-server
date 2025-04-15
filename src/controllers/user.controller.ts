@@ -127,11 +127,10 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
 	// 4. compare hash
 
 	const isMatch = await compare(password, user.password);
-
+	console.log('is match',isMatch)
 	if (!isMatch) {
 		throw new CustomError("Email or password does not match", 400);
 
-		return;
 	}
 
 	const payload: IPayload = {
