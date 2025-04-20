@@ -156,5 +156,6 @@ export const login = asyncHandler(async (req: Request, res: Response) => {
 			success: true,
 			message: "Login success",
 			token,
+			user
 		});
 });

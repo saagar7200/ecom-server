@@ -10,7 +10,7 @@ export const create = asyncHandler(async (req: Request, res: Response) => {
 	const user = req.user;
 	const { productId, rating } = body;
 	if (!productId) {
-		throw new CustomError("userId and productId is required", 400);
+		throw new CustomError("productId is required", 400);
 	}
 
 	const product = await Product.findById(productId);
