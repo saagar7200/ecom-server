@@ -4,6 +4,7 @@ import {
 	update,
 	login,
 	getAll,
+	adminLogin
 } from "../controllers/user.controller";
 import { Authenticate } from "../middlewares/authentication.middleware";
 import { onlyAdmin } from "../@types/global.types";
@@ -21,5 +22,6 @@ router.put("/:id", Authenticate(), update);
 
 // login
 router.post("/login", login);
+router.post("/admin/login", adminLogin);
 
 export default router;
