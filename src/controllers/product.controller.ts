@@ -137,8 +137,13 @@ export const remove = asyncHandler(async (req: Request, res: Response) => {
 		throw new CustomError("Product not found", 404);
 	}
 
+	if (product.coverImage) {
+		await deleteFiles([product.coverImage.public_id] as string[]);
+
+	}
+
 	if (product.images && product.images.length > 0) {
-		await deleteFiles(product.images as string[]);
+		await deleteFiles(product.images.map(image => image.public_id) as string[]);
 	}
 
 	await Product.findByIdAndDelete(product._id);

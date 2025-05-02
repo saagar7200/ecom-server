@@ -113,8 +113,11 @@ exports.remove = (0, asyncHandler_util_1.asyncHandler)((req, res) => __awaiter(v
     if (!product) {
         throw new errorhandler_middleare_1.default("Product not found", 404);
     }
+    if (product.coverImage) {
+        yield (0, deleteFiles_util_1.deleteFiles)([product.coverImage.public_id]);
+    }
     if (product.images && product.images.length > 0) {
-        yield (0, deleteFiles_util_1.deleteFiles)(product.images);
+        yield (0, deleteFiles_util_1.deleteFiles)(product.images.map(image => image.public_id));
     }
     yield product_model_1.default.findByIdAndDelete(product._id);
     res.status(201).json({
