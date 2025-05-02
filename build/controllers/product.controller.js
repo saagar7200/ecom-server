@@ -20,7 +20,7 @@ const deleteFiles_util_1 = require("../utils/deleteFiles.util");
 const category_model_1 = __importDefault(require("../models/category.model"));
 const pagination_utils_1 = require("../utils/pagination.utils");
 exports.create = (0, asyncHandler_util_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
+    var _a, _b;
     const { name, price, description, category: categoryId } = req.body;
     const admin = req.user;
     const files = req.files;
@@ -41,9 +41,17 @@ exports.create = (0, asyncHandler_util_1.asyncHandler)((req, res) => __awaiter(v
         createdBy: admin._id,
         category: category._id,
     });
-    product.coverImage = (_a = coverImage[0]) === null || _a === void 0 ? void 0 : _a.path;
+    product.coverImage = {
+        path: (_a = coverImage[0]) === null || _a === void 0 ? void 0 : _a.path,
+        public_id: (_b = coverImage[0]) === null || _b === void 0 ? void 0 : _b.fieldname
+    };
     if (images && images.length > 0) {
-        const imagePath = images.map((image, index) => image.path);
+        const imagePath = images.map((image, index) => {
+            return {
+                path: image.path,
+                public_id: image.fieldname
+            };
+        });
         product.images = imagePath;
     }
     yield product.save();
@@ -56,7 +64,6 @@ exports.create = (0, asyncHandler_util_1.asyncHandler)((req, res) => __awaiter(v
 }));
 // update product
 exports.update = (0, asyncHandler_util_1.asyncHandler)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _b;
     const { deletedImages, name, description, price, categoryId } = req.body;
     const id = req.params.id;
     const { coverImage, images } = req.files;
@@ -73,14 +80,22 @@ exports.update = (0, asyncHandler_util_1.asyncHandler)((req, res) => __awaiter(v
     }
     if (coverImage) {
         yield (0, deleteFiles_util_1.deleteFiles)([product.coverImage]);
-        product.coverImage = (_b = coverImage[0]) === null || _b === void 0 ? void 0 : _b.path;
+        product.coverImage = {
+            path: coverImage[0].path,
+            public_id: coverImage[0].fieldname
+        };
     }
     if (deletedImages && deletedImages.length > 0) {
         yield (0, deleteFiles_util_1.deleteFiles)(deletedImages);
-        product.images = product.images.filter((image) => !deletedImages.includes(image));
+        product.images = product.images.filter((image) => !deletedImages.includes(image.public_id));
     }
     if (images && images.length > 0) {
-        const imagePath = images.map((image, index) => image.path);
+        const imagePath = images.map((image, index) => {
+            return {
+                path: image.path,
+                public_id: image.fieldname
+            };
+        });
         product.images = [...product.images, ...imagePath];
     }
     yield product.save();

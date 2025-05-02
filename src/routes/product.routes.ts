@@ -9,18 +9,21 @@ import {
 import multer from "multer";
 import { Authenticate } from "../middlewares/authentication.middleware";
 import { onlyAdmin } from "../@types/global.types";
+import { CloudinaryStorage } from "multer-storage-cloudinary";
+import { cloudinary } from "../config/cloudinary.config";
 
 const router = express.Router();
 
-const storage = multer.diskStorage({
-	destination: function (req, file, cb) {
-		cb(null, "./uploads");
+const storage =  new CloudinaryStorage({
+	cloudinary: cloudinary,
+	params: async (req, file) => {
+	  
+	  return {
+		folder: 'ecom/products',
+		allowed_formats: ['jpeg','webp','jpg','png','svg'],
+	  };
 	},
-	filename: function (req, file, cb) {
-		const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-		cb(null, uniqueSuffix + file.originalname);
-	},
-});
+  });
 
 const upload = multer({ storage: storage });
 
